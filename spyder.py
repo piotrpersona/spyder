@@ -56,7 +56,7 @@ args = parser.parse_args()
 def fetch_articles(topics):
     articles = {}
     search_url = "https://medium.com/search?q={}"
-    papers = [newspaper.build(search_url.format(topics)) for topic in topics]
+    papers = [newspaper.build(search_url.format(topic)) for topic in topics]
     newspaper.news_pool.set(papers, threads_per_source=2)
     newspaper.news_pool.join()
     for paper in papers:
