@@ -83,7 +83,7 @@ def main():
     LOG.info(f"Downloaded {len(articles)} articles")
 
     with open(args.out, "w", encoding="utf-8") as file_handle:
-        json.dump(processed_articles, file_handle, ensure_ascii=False, indent=0)
+        json.dump(processed_articles, file_handle, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":
