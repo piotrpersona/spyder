@@ -22,16 +22,21 @@ default_topics = [
     "deep learning",
 ]
 
-parser = argparse.ArgumentParser(description="Fetch Medium articles by topic")
+parser = argparse.ArgumentParser(
+    description="Fetch Medium articles by topic",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
 parser.add_argument(
-    "topics",
-    metavar="TOPICS",
-    type=string,
+    "-t",
+    "--topics",
+    type=str,
     nargs="+",
     help="List of topics to fetch articles",
     default=default_topics,
 )
-parser.add_argument("out", default="data.json", help="Save articles .json to a file")
+parser.add_argument(
+    "-o", "--out", default="data.json", type=str, help="Save articles .json to a file"
+)
 
 args = parser.parse_args()
 
@@ -70,14 +75,14 @@ def process_articles(articles):
 
 
 def main():
-    topics = parser.topics
+    topics = args.topics
     LOG.info(f"Downloading articles for topics: {topics}")
     articles = fetch_articles(topics)
     processed_articles = process_articles(articles)
 
     LOG.info(f"Downloaded {len(articles)} articles")
 
-    with open(parser.out, "w", encoding="utf-8") as file_handle:
+    with open(args.out, "w", encoding="utf-8") as file_handle:
         json.dump(processed_articles, file_handle, ensure_ascii=False, indent=0)
 
 
