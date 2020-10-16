@@ -20,6 +20,18 @@ default_topics = [
     "python stemming",
     "python scraping",
     "deep learning",
+    "lemmatize",
+    "natural language",
+    "python tokenizer",
+    "tokenizer",
+    "text classification",
+    "probability concepts",
+    "tensor flow"
+    "pytorch",
+    "python numpy",
+    "python pandas",
+    "beautiful soup python",
+    "machine learning cost function",
 ]
 
 parser = argparse.ArgumentParser(
