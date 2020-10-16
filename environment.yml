@@ -1,0 +1,8 @@
+name: spyder
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - pip
+  
+prefix: /Users/piotr.persona/miniconda3/envs/spyder
