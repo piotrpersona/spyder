@@ -6,7 +6,7 @@ RUN apk update && apk add --update --no-cache g++ gcc libxslt-dev
 
 COPY requirements.txt .
 
-RUN pip3 install -U pip && pip3 install -r requirements.txt
+RUN apk add --update --no-cache g++ gcc libxml2-dev libxslt-dev python-dev libffi-dev openssl-dev make
 
 COPY spyder.py .
 
