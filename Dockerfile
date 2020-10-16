@@ -2,7 +2,7 @@ FROM python:3.10.0a1-alpine
 
 WORKDIR /man
 
-RUN apk add --update --no-cache g++ gcc libxml2-dev libxslt-dev python3-dev libffi-dev openssl-dev make
+RUN apk add --update --no-cache g++ gcc libxslt-dev
 
 COPY requirements.txt .
 
