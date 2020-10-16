@@ -2,7 +2,7 @@ FROM python:3.9-slim-buster
 
 WORKDIR /man
 
-RUN apt update && apt install -y python3-libxml2 python3-dev
+RUN apt update && apt install -y python3-libxml2 python3-lxml python3-dev
 
 COPY requirements.txt .
 
