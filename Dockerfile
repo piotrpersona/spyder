@@ -1,10 +1,6 @@
-FROM python:3.10.0a1-alpine
+FROM python:3.9-slim-buster
 
 WORKDIR /man
-
-RUN apk update && apk add --update --no-cache g++ python3-dev \
-        libxml2 libxml2-dev \
-    && apk add libxslt-dev
 
 COPY requirements.txt .
 
