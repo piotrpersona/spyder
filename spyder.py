@@ -52,7 +52,12 @@ parser.add_argument(
     "-o", "--out", default="data.json", type=str, help="Save articles .json to a file"
 )
 parser.add_argument(
-    "-s", "--scraper", default="newspaper", choices=["newspaper", "bs4"], type=str, help="Scraper that will be used to fetch articles"
+    "-s",
+    "--scraper",
+    default="newspaper",
+    choices=["newspaper", "bs4"],
+    type=str,
+    help="Scraper that will be used to fetch articles",
 )
 
 args = parser.parse_args()
@@ -69,14 +74,17 @@ def main():
 
         LOG.info(f"Downloaded {len(articles)} articles")
 
+        LOG.info(f"Writing {len(articles)} to {args.out}")
         with open(args.out, "w", encoding="utf-8") as file_handle:
             json.dump(articles, file_handle, ensure_ascii=False, indent=2)
+        LOG.info(f"Done!")
     except NameError as name_error:
         LOG.error(name_error)
         sys.exit(1)
     except Exception as exception:
-        LOG.error(f'Cannot process articles, err: {exception}')
+        LOG.error(f"Cannot process articles, err: {exception}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

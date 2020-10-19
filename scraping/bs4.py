@@ -37,22 +37,24 @@ class BS4(Scraper):
 
     @staticmethod
     def __parse_title(html):
-        soup = BeautifulSoup(html,'lxml')
-        title = soup.find_all('strong', class_='be')
+        soup = BeautifulSoup(html, "lxml")
+        title = soup.find_all("strong", class_="be")
         if len(title) > 0:
             return title[0].text
-        title = soup.find('h1')
+        title = soup.find("h1")
         if title:
             return title.text
         return ""
 
     @staticmethod
     def __parse_publish_date(html):
-        soup = BeautifulSoup(html, 'html.parser')
-        publish_date = soup.find_all('span', class_='gb')
+        soup = BeautifulSoup(html, "html.parser")
+        publish_date = soup.find_all("span", class_="gb")
         if len(publish_date) > 0:
             return publish_date[0].text
-        publish_date = soup.find_all('span', class_='bb b bc bd cc gt cb gu gv gw gx be')
+        publish_date = soup.find_all(
+            "span", class_="bb b bc bd cc gt cb gu gv gw gx be"
+        )
         if len(publish_date) > 0:
             pd = publish_date[0]
             print(pd)
@@ -63,20 +65,19 @@ class BS4(Scraper):
 
     @staticmethod
     def __parse_authors(html):
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html, "html.parser")
         authors = []
-        parsed = soup.find_all('img', {'width': 48, 'height': 48})
+        parsed = soup.find_all("img", {"width": 48, "height": 48})
         if len(parsed) > 0:
-            name = parsed[0].get('alt')
+            name = parsed[0].get("alt")
             authors.append(name)
         return authors
 
     @staticmethod
     def __parse_text(html):
-        soup = BeautifulSoup(html, 'lxml')
-        parsed = soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'ul', 'li'])
-        return ' '.join([par.text for par in parsed if par])
-
+        soup = BeautifulSoup(html, "lxml")
+        parsed = soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "ul", "li"])
+        return " ".join([par.text for par in parsed if par])
 
     @staticmethod
     def __fetch_html(search_url: str) -> str:
@@ -86,9 +87,9 @@ class BS4(Scraper):
     @staticmethod
     def __parse_articles_urls(topic_html: str) -> List[str]:
         urls = []
-        soup = BeautifulSoup(topic_html, 'html.parser')
-        for a in soup.find_all('a', {'data-action': 'open-post'}, href=True):
-            href = a.get('href')
+        soup = BeautifulSoup(topic_html, "html.parser")
+        for a in soup.find_all("a", {"data-action": "open-post"}, href=True):
+            href = a.get("href")
             if href:
                 urls.append(href)
         return list(set(urls))

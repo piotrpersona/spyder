@@ -1,8 +1,11 @@
+import logging
 from typing import List, Dict
 
 from scraping.scraper import Scraper, Article
 
 import newspaper
+
+LOG = logging.getLogger(__name__)
 
 
 class Newspaper(Scraper):
