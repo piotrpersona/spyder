@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
+import sys
 import time
 import json
 import logging
 import argparse
 
 import newspaper
+
+from scraping.factory import ScraperFactory
 
 logging.basicConfig(level=logging.INFO)
 
@@ -26,8 +29,7 @@ default_topics = [
     "tokenizer",
     "text classification",
     "probability concepts",
-    "tensor flow"
-    "pytorch",
+    "tensor flow" "pytorch",
     "python numpy",
     "python pandas",
     "beautiful soup python",
@@ -48,6 +50,9 @@ parser.add_argument(
 )
 parser.add_argument(
     "-o", "--out", default="data.json", type=str, help="Save articles .json to a file"
+)
+parser.add_argument(
+    "-s", "--scraper", default="newspaper", choices=["newspaper"], type=str, help="Scraper that will be used to fetch articles"
 )
 
 args = parser.parse_args()
@@ -88,15 +93,23 @@ def process_articles(articles):
 
 def main():
     topics = args.topics
-    LOG.info(f"Downloading articles for topics: {topics}")
-    articles = fetch_articles(topics)
-    processed_articles = process_articles(articles)
+    scraper_name = args.scraper
+    try:
+        LOG.info(f"Downloading articles for topics: {topics}")
 
-    LOG.info(f"Downloaded {len(articles)} articles")
+        scraper = ScraperFactory().get(scraper_name)
+        articles = scraper.scrape(topics)
 
-    with open(args.out, "w", encoding="utf-8") as file_handle:
-        json.dump(processed_articles, file_handle, ensure_ascii=False, indent=2)
+        LOG.info(f"Downloaded {len(articles)} articles")
 
+        with open(args.out, "w", encoding="utf-8") as file_handle:
+            json.dump(processed_articles, file_handle, ensure_ascii=False, indent=2)
+    except NameError as name_error:
+        LOG.error(name_error)
+        sys.exit(1)
+    except Exception as exception:
+        LOG.error(f'Cannot process articles, err: {exception}')
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
