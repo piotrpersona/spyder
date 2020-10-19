@@ -1,5 +1,5 @@
 from scraping.scraper import Scraper
-from scraping.paper import Newspaper
+from scraping.newspaper import Newspaper
 
 
 class ScraperFactory:
