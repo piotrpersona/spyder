@@ -66,9 +66,6 @@ def main():
 
         scraper = ScraperFactory().get(scraper_name)
         articles = scraper.scrape(topics)
-        from pprint import pprint
-        pprint(articles)
-        sys.exit(0)
 
         LOG.info(f"Downloaded {len(articles)} articles")
 

@@ -14,7 +14,7 @@ class BS4(Scraper):
         for search_url in search_urls:
             topic_html = self.__fetch_html(search_url)
             articles_urls = self.__parse_articles_urls(topic_html)
-            return self.__fetch_articles(articles_urls[:2])
+            return self.__fetch_articles(articles_urls)
 
     def __fetch_articles(self, articles_urls: List[str]) -> List[Article]:
         return [self.__fetch_article(url) for url in articles_urls]
