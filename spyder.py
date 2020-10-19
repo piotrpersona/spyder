@@ -52,7 +52,7 @@ parser.add_argument(
     "-o", "--out", default="data.json", type=str, help="Save articles .json to a file"
 )
 parser.add_argument(
-    "-s", "--scraper", default="newspaper", choices=["newspaper"], type=str, help="Scraper that will be used to fetch articles"
+    "-s", "--scraper", default="newspaper", choices=["newspaper", "bs4"], type=str, help="Scraper that will be used to fetch articles"
 )
 
 args = parser.parse_args()
@@ -66,11 +66,14 @@ def main():
 
         scraper = ScraperFactory().get(scraper_name)
         articles = scraper.scrape(topics)
+        from pprint import pprint
+        pprint(articles)
+        sys.exit(0)
 
         LOG.info(f"Downloaded {len(articles)} articles")
 
         with open(args.out, "w", encoding="utf-8") as file_handle:
-            json.dump(processed_articles, file_handle, ensure_ascii=False, indent=2)
+            json.dump(articles, file_handle, ensure_ascii=False, indent=2)
     except NameError as name_error:
         LOG.error(name_error)
         sys.exit(1)

@@ -1,1 +1,2 @@
 newspaper3k==0.2.8
+beautifulsoup4==4.9.3
