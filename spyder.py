@@ -58,39 +58,6 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-def fetch_articles(topics):
-    articles = {}
-    search_url = "https://medium.com/search?q={}"
-    papers = [newspaper.build(search_url.format(topic)) for topic in topics]
-    newspaper.news_pool.set(papers, threads_per_source=2)
-    newspaper.news_pool.join()
-    for paper in papers:
-        LOG.info(f"Downloading from: {paper.url}")
-        for article in paper.articles:
-            LOG.debug(f"Article: {article.url}")
-            articles[article.url] = article
-    return articles
-
-
-def fetch_article_info(article):
-    article.download()
-    article.parse()
-    article.nlp()
-    return dict(
-        url=article.url,
-        title=article.title,
-        publish_date=article.publish_date.strftime("%Y-%m-%d %H:%M:%S"),
-        authors=article.authors,
-        summary=article.summary,
-        text=article.text,
-        keywords=article.keywords,
-    )
-
-
-def process_articles(articles):
-    return [fetch_article_info(article) for url, article in articles.items()]
-
-
 def main():
     topics = args.topics
     scraper_name = args.scraper
