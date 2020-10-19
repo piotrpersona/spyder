@@ -70,8 +70,10 @@ def main():
         LOG.info(f"Downloading articles for topics: {topics}")
 
         scraper = ScraperFactory().get(scraper_name)
-        articles = scraper.scrape(topics)
+        LOG.info(f"Using scraper: {scraper_name}")
 
+        LOG.info("Fetching articles")
+        articles = scraper.scrape(topics)
         LOG.info(f"Downloaded {len(articles)} articles")
 
         LOG.info(f"Writing {len(articles)} to {args.out}")
