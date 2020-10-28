@@ -8,8 +8,6 @@ on:
       - 'requirements.txt'
       - 'environment.yml'
       - '.github**/'
-  schedule:
-    - cron: '0 0 * * *'  # every day at midnight
 
 jobs:
   build-main-image:
