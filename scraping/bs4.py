@@ -9,22 +9,21 @@ from scraping.scraper import Scraper, Article
 
 class BS4(Scraper):
     def scrape(self, topics: List[str]) -> List[Article]:
-        search_url = "https://medium.com/search?q={}"
-        search_urls = [search_url.format(topic) for topic in topics]
-        for search_url in search_urls:
+        for topic in topics:
+            search_url = "https://medium.com/search?q={}".format(topic)
             topic_html = self.__fetch_html(search_url)
             articles_urls = self.__parse_articles_urls(topic_html)
-            return self.__fetch_articles(articles_urls)
+            return self.__fetch_articles(articles_urls, topic)
 
-    def __fetch_articles(self, articles_urls: List[str]) -> List[Article]:
-        return [self.__fetch_article(url) for url in articles_urls]
+    def __fetch_articles(self, articles_urls: List[str], topic: str) -> List[Article]:
+        return [self.__fetch_article(url, topic) for url in articles_urls]
 
-    def __fetch_article(self, url: str) -> Article:
+    def __fetch_article(self, url: str, topic: str) -> Article:
         html = self.__fetch_html(url)
-        article = self.__parse_article(url, html)
+        article = self.__parse_article(url, html, topic)
         return article
 
-    def __parse_article(self, url: str, html: str) -> Article:
+    def __parse_article(self, url: str, html: str, topic: str) -> Article:
         return Article(
             url=url,
             title=self.__parse_title(html),
@@ -33,6 +32,7 @@ class BS4(Scraper):
             summary="",
             text=self.__parse_text(html),
             keywords=[],
+            cathegory=topic,
         )
 
     @staticmethod

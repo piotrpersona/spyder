@@ -73,7 +73,7 @@ def main():
         LOG.info(f"Using scraper: {scraper_name}")
 
         LOG.info("Fetching articles")
-        articles = scraper.scrape(topics)
+        articles = [article._asdict() for article in scraper.scrape(topics)]
         LOG.info(f"Downloaded {len(articles)} articles")
 
         LOG.info(f"Writing {len(articles)} to {args.out}")

@@ -3,7 +3,7 @@ from typing import List
 from collections import namedtuple
 
 
-Article = namedtuple("Article", "url title publish_date authors summary text keywords")
+Article = namedtuple("Article", "url title publish_date authors summary text keywords cathegory")
 
 
 class Scraper(abc.ABC):

@@ -44,4 +44,5 @@ class Newspaper(Scraper):
             summary=article.summary,
             text=article.text,
             keywords=article.keywords,
+            cathegory="",
         )
