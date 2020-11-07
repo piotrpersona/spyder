@@ -1,3 +1,4 @@
+import logging
 from typing import List, Dict
 
 import requests
@@ -7,13 +8,20 @@ from bs4 import BeautifulSoup
 from scraping.scraper import Scraper, Article
 
 
+LOG = logging.getLogger(__name__)
+
+
 class BS4(Scraper):
     def scrape(self, topics: List[str]) -> List[Article]:
+        articles = []
         for topic in topics:
             search_url = "https://medium.com/search?q={}".format(topic)
             topic_html = self.__fetch_html(search_url)
+            if not topic_html:
+                continue
             articles_urls = self.__parse_articles_urls(topic_html)
-            return self.__fetch_articles(articles_urls, topic)
+            articles += self.__fetch_articles(articles_urls, topic)
+        return [article for article in articles if article]
 
     def __fetch_articles(self, articles_urls: List[str], topic: str) -> List[Article]:
         return [self.__fetch_article(url, topic) for url in articles_urls]
@@ -81,8 +89,11 @@ class BS4(Scraper):
 
     @staticmethod
     def __fetch_html(search_url: str) -> str:
-        response = requests.get(search_url)
-        return response.text
+        try:
+            response = requests.get(search_url)
+            return response.text
+        except Exception as e:
+            LOG.error(f'fetch html error: {e}')
 
     @staticmethod
     def __parse_articles_urls(topic_html: str) -> List[str]:
@@ -90,6 +101,6 @@ class BS4(Scraper):
         soup = BeautifulSoup(topic_html, "html.parser")
         for a in soup.find_all("a", {"data-action": "open-post"}, href=True):
             href = a.get("href")
-            if href:
+            if href and 'machinelearnings.co' not in href and 'blog.baasil.io' not in href and 'blog.getpolymorph.com' not in href:
                 urls.append(href)
         return list(set(urls))

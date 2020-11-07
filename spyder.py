@@ -9,32 +9,11 @@ import argparse
 import newspaper
 
 from scraping.factory import ScraperFactory
+from topics import default_topics
 
 logging.basicConfig(level=logging.INFO)
 
 LOG = logging.getLogger(__name__)
-
-default_topics = [
-    "natural language processing",
-    "machine learning",
-    "neural networks",
-    "text processing",
-    "python nltk",
-    "python stemming",
-    "python scraping",
-    "deep learning",
-    "lemmatize",
-    "natural language",
-    "python tokenizer",
-    "tokenizer",
-    "text classification",
-    "probability concepts",
-    "tensor flow" "pytorch",
-    "python numpy",
-    "python pandas",
-    "beautiful soup python",
-    "machine learning cost function",
-]
 
 parser = argparse.ArgumentParser(
     description="Fetch Medium articles by topic",
