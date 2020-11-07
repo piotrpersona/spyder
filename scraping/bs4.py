@@ -101,6 +101,14 @@ class BS4(Scraper):
         soup = BeautifulSoup(topic_html, "html.parser")
         for a in soup.find_all("a", {"data-action": "open-post"}, href=True):
             href = a.get("href")
-            if href and 'machinelearnings.co' not in href and 'blog.baasil.io' not in href and 'blog.getpolymorph.com' not in href:
+            if href and not in_blacklist(href):
                 urls.append(href)
         return list(set(urls))
+
+
+def in_blacklist(href):
+    blacklist = ['machinelearnings.co', 'blog.baasil.io', 'blog.getpolymorph.com']
+    for url in blacklist:
+        if href in url:
+            return True
+    return False
