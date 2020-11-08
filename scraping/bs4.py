@@ -6,7 +6,7 @@ import newspaper
 from bs4 import BeautifulSoup
 
 from scraping.scraper import Scraper, Article
-
+from topics import topics_categories
 
 LOG = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class BS4(Scraper):
             summary="",
             text=self.__parse_text(html),
             keywords=[],
-            cathegory=topic,
+            cathegory=topics_categories[topic],
         )
 
     @staticmethod
@@ -101,7 +101,7 @@ class BS4(Scraper):
         soup = BeautifulSoup(topic_html, "html.parser")
         for a in soup.find_all("a", {"data-action": "open-post"}, href=True):
             href = a.get("href")
-            if href and not in_blacklist(href):
+            if href and href not in 'machinelearnings.co' and href not in 'blog.baasil.io' and href not in 'blog.getpolymorph.com':
                 urls.append(href)
         return list(set(urls))
 
