@@ -13,4 +13,4 @@ if __name__ == "__main__":
             raw_article['cathegory'] = topics_categories[raw_article['cathegory']]
             articles.append(Article(**raw_article))
         with open(sys.argv[2], 'w') as out_file:
-            json.dump(articles, out_file, ensure_ascii=False, indent=2)
+            json.dump([article._asdict() for article in articles], out_file, ensure_ascii=False, indent=2)
